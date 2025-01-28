@@ -20,7 +20,7 @@
       </div>
 
       <div class="intro_image">
-        <img src="@/assets/img/Group 1.png" alt="">
+        <img class="gf" src="@/assets/img/Group 1.png" alt="">
       </div>
     </div>
   </section>
@@ -66,7 +66,7 @@
   display: flex;
   margin-bottom: 120px;
   width: 100%;
-
+margin-top: 50px;
 }
 
 .vtoroe3 {

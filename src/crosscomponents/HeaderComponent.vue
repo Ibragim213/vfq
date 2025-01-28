@@ -7,14 +7,18 @@
       </div>
       <nav class="header__nav">
         <ul>
-          <li><a href="#">Главная страница</a></li>
-          <li><a href="#">Товары</a></li>
-          <li><a href="#">О нас</a></li>
-          <li><a href="#">Контакты</a></li>
+          <router-link to="/home">
+            <li> Главная страница</li>
+          </router-link>
+          <router-link to="/store">
+            <li>Товары</li>
+          </router-link>
+          <li>О нас</li>
+          <li>Контакты</li>
         </ul>
       </nav>
       <div class="header__actions">
-        <a href="#"><img src="@/assets/img/8674457_ic_fluent_cart_regular_icon.png" alt=""></a>
+        <a href="#"><img class="photo_karzina" src="@/assets/img/8674457_ic_fluent_cart_regular_icon.png" alt=""></a>
         <a href="#" class="cart-icon">
           <img src="@/assets/img/8675143_ic_fluent_person_regular_icon (1).png" alt="">
         </a>
@@ -40,6 +44,10 @@
   position: sticky;
   top: 0;
   z-index: 1000;
+}
+.photo_karzina{
+  width: 24px;
+  height: 24px;
 }
 
 .header__logo .logo-text {

@@ -19,6 +19,7 @@ a {
 ul,
 li {
   Padding: 0;
+  list-style-type: none;
 }
 body {
   font-family: Arial, sans-serif;
