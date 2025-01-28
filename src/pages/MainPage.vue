@@ -25,7 +25,6 @@ import TestComponent from '@/crosscomponents/TestComponent.vue';
     components: {
     
         HeaderComponent,
-       
         TestComponent,
         MainSection1,
         MainSection2,
