@@ -1,27 +1,29 @@
 <template>
-    
-    <section class="vtoroe container">
-      <div class="vtoroe2">
-        <div class="vtoroe3">
-          <div class="gapq">
-            <h1>
-              Создавая мебель для будущего <br>
-              с неподвластным времени дизайном.
-            </h1>
-          </div>
-          <div class="aa">
-            <a class="a2" href="#">Посмотреть товары</a>
-          </div>
-          <p class="pa">
-            В нашем бренде мы верим, что мебель — это не просто предметы интерьера,<br> а отражение вашего стиля и индивидуальности. Мы предлагаем уникальные  <br> решения, которые гармонично вписываются в любой интерьер, оставаясь <br> актуальными на протяжении многих лет.
-          </p>
+
+  <section class="vtoroe container">
+    <div class="vtoroe2">
+      <div class="vtoroe3">
+        <div class="gapq">
+          <h1>
+            Создавая мебель для будущего <br>
+            с неподвластным времени дизайном.
+          </h1>
         </div>
-  
-        <div class="intro_image">
-          <img class="gf" src="MY_PROJECT/src/assets/img/Group 1.png" alt="" />
+        <div class="aa">
+          <a class="a2" href="#">Посмотреть товары</a>
         </div>
+        <p class="pa">
+          В нашем бренде мы верим, что мебель — это не просто предметы интерьера,<br> а отражение вашего стиля и
+          индивидуальности. Мы предлагаем уникальные <br> решения, которые гармонично вписываются в любой интерьер,
+          оставаясь <br> актуальными на протяжении многих лет.
+        </p>
       </div>
-    </section>
+
+      <div class="intro_image">
+        <img src="@/assets/img/Group 1.png" alt="">
+      </div>
+    </div>
+  </section>
 
 </template>
 <style scoped>
@@ -94,8 +96,7 @@
   text-decoration: none;
   color: #fff;
 }
-
 </style>
 <script setup>
 // тут скрипт
- </script>
+</script>

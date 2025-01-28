@@ -1,38 +1,67 @@
 <template>
-   
-<!-- слайдер -->
-<section style="margin-top: 120px;">
-  <div class="slider-container">
-    <div class="slider">
-      <div class="slides">
-        <img src="src/assets/img/slider1.png" alt="слайд" class="slide">
-        <img src="src/assets/img/item4.png" alt="слайд" class="slide">
-        <img src="src/assets/img/item3.png" alt="слайд" class="slide">
+  <!-- слайдер -->
+  <section style="margin-top: 120px;">
+    <div class="slider-container">
+      <div class="slider">
+        <div class="slides" :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
+          <img v-for="(slide, index) in slides" :key="index" :src="slide" alt="слайд" class="slide">
+        </div>
       </div>
+      <button class="prev" @click="prevSlide"></button>
+      <button class="next" @click="nextSlide"></button>
+      <div class="indicators">
+        <span v-for="(slide, index) in slides" :key="index" :class="{ active: index === currentIndex }"
+          @click="goToSlide(index)"></span>
+      </div>
+      <button class="custom-button"><a href="">Перейти</a></button>
     </div>
-    <button class="prev" onclick="prevSlide()"></button>
-    <button class="next" onclick="nextSlide()"></button>
-    <div class="indicators"></div>
-    <button class="custom-button"><a href="">Перейти</a></button>
-  </div>
-</section>
+  </section>
 </template>
-<style scoped>
 
+<script setup>
+import { ref } from 'vue';
+
+
+
+const slides = [
+  new URL('@/assets/img/slider1.png', import.meta.url).href,
+  new URL('@/assets/img/item4.png', import.meta.url).href,
+  new URL('@/assets/img/item3.png', import.meta.url).href,
+];
+
+
+const currentIndex = ref(0);
+
+
+const prevSlide = () => {
+  currentIndex.value = (currentIndex.value - 1 + slides.length) % slides.length;
+};
+
+const nextSlide = () => {
+  currentIndex.value = (currentIndex.value + 1) % slides.length;
+};
+
+const goToSlide = (index) => {
+  currentIndex.value = index;
+};
+
+</script>
+
+<style scoped>
 /* слайдер */
 .slider-container {
   position: relative;
   width: 80%;
   max-width: 600px;
   margin: 0 auto;
-  /* Центрирование контейнера */
+
 }
 
 .slider {
   position: relative;
   width: 100%;
   overflow: hidden;
-  /* Скрываем всё, что выходит за границы слайдера */
+
   border: 2px solid #ccc;
   border-radius: 10px;
 }
@@ -72,23 +101,21 @@
   border: 2px solid rgb(0, 0, 0);
 }
 
-
-/* .prev {
+.prev {
   left: -154px;
-  background-image: url(src/assets/img/prev.png);
-} */
+  background-image: url('/src/assets/img/prev.png');
+}
 
-/* .next {
+.next {
   right: -154px;
-  background-image: url(src/assets/img/next.png);
-} */
+  background-image: url('/src/assets/img/next.png');
+}
 
 .indicators {
   display: flex;
   justify-content: center;
   margin-top: 10px;
 }
-
 
 .indicators span {
   width: 10px;
@@ -126,6 +153,3 @@
   color: white;
 }
 </style>
-<script setup>
-
- </script>

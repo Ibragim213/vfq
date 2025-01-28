@@ -1,54 +1,70 @@
 <template>
- 
 
-<!-- Распродажа -->
-<section style="margin-top: 120px;">
-  <div class="categories-top ">
-    <h3>Распродажа</h3>
-    <div class="categories-line"></div>
-    <button class="categories-nav">
-      <p>Все товары</p>
-    </button>
-  </div>
 
-  <div class="products container">
+  <!-- Распродажа -->
+  <section style="margin-top: 120px;">
+    <div class="categories-top ">
+      <h3>Распродажа</h3>
+      <div class="categories-line"></div>
+      <button class="categories-nav">
+        <p>Все товары</p>
+      </button>
+    </div>
 
-    <div class="product">
-      <div class="bacground-sofa">
-       <a href=""><img src="/img/sofa1.png" alt=""></a> 
-       <a href=""> <p class="discount">-50%</p></a>
+    <div class="products container">
+
+      <div class="product">
+        <div class="bacground-sofa">
+          <a href=""><img src="@/assets/img/sofa1.png" alt=""></a>
+          <a href="">
+            <p class="discount">-50%</p>
+          </a>
+        </div>
+        <div class="price">
+          <a href="">
+            <p>10000 <img src="@/assets/img/ruble.png" alt="рублей"></p>
+          </a>
+          <a class="" href="">
+            <p>20000<img src="@/assets/img/ruble.png" alt="рублей"></p>
+          </a>
+        </div>
       </div>
-      <div class="price">
-        <a href=""><p>10000 <img src="/img/ruble.png" alt="рублей"></p></a>
-      <a class="" href=""><p>20000<img src="/img/ruble.png" alt="рублей"></p></a>  
+      <div class="product">
+        <div class="bacground-sofa">
+          <a href=""><img src="@/assets/img/sofa2.png" alt=""></a>
+          <a href="">
+            <p class="discount">-50%</p>
+          </a>
+        </div>
+        <div class="price">
+          <a href="">
+            <p>10000 <img src="@/assets/img/ruble.png" alt="рублей"></p>
+          </a>
+          <a href="">
+            <p>20000<img src="@/assets/img/ruble.png" alt="рублей"></p>
+          </a>
+        </div>
+      </div>
+      <div class="product">
+        <div class="bacground-sofa">
+          <a href="#"><img src="@/assets/img/sofa3.png" alt=""></a>
+          <a href="#">
+            <p class="discount">-50%</p>
+          </a>
+        </div>
+        <div class="price">
+          <a href="">
+            <p>10000 <img src="@/assets/img/ruble.png" alt="рублей"></p>
+          </a>
+          <a href="">
+            <p>20000<img src="@/assets/img/ruble.png" alt="рублей"></p>
+          </a>
+        </div>
       </div>
     </div>
-    <div class="product">
-      <div class="bacground-sofa">
-       <a href=""><img src="/img/sofa2.png" alt=""></a> 
-      <a href=""><p class="discount">-50%</p></a>  
-      </div>
-      <div class="price">
-        <a href=""><p>10000 <img src="/img/ruble.png" alt="рублей"></p></a>
-        <a href=""><p>20000<img src="/img/ruble.png" alt="рублей"></p></a>
-      </div>
-    </div>
-    <div class="product">
-      <div class="bacground-sofa">
-        <a href="#"><img src="/img/sofa3.png" alt=""></a>
-        <a href="#"><p class="discount">-50%</p></a>
-      </div>
-      <div class="price">
-        <a href=""><p>10000 <img src="/img/ruble.png" alt="рублей"></p></a>
-        <a href=""><p>20000<img src="/img/ruble.png" alt="рублей"></p></a>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 </template>
 <style scoped>
-
-
 /* распродажа */
 .categories-top {
   display: flex;
@@ -149,4 +165,4 @@ p {
 </style>
 <script setup>
 // тут скрипт
- </script>
+</script>

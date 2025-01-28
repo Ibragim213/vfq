@@ -1,37 +1,35 @@
 <template>
-    <header>
-        <header class="header">
-    <div class="header__logo">
-      <h1 class="mebel">Мебельный</h1>
-      <h2>мир</h2>
-    </div>
-    <nav class="header__nav">
-      <ul>
-        <li><a href="#">Главная страница</a></li>
-        <li><a href="#">Товары</a></li>
-        <li><a href="#">О нас</a></li>
-        <li><a href="#">Контакты</a></li>
-      </ul>
-    </nav>
-    <div class="header__actions">
-      <a href="#" ><img class="corzina" src="/src/assets/img/8674457_ic_fluent_cart_regular_icon.png" alt=""></a>
-      <a href="#" class="cart-icon">
-        <img src="src/assets/img/8674457_ic_fluent_cart_regular_icon.png" alt="">
-      </a>
-      <div class="header__burger" onclick="toggleMenu()">
-        <span></span>
-        <span></span>
-        <span></span>
+  <header>
+    <header class="header">
+      <div class="header__logo">
+        <h1 class="mebel">Мебельный</h1>
+        <h2>мир</h2>
       </div>
-    </div>
-  </header>
-
+      <nav class="header__nav">
+        <ul>
+          <li><a href="#">Главная страница</a></li>
+          <li><a href="#">Товары</a></li>
+          <li><a href="#">О нас</a></li>
+          <li><a href="#">Контакты</a></li>
+        </ul>
+      </nav>
+      <div class="header__actions">
+        <a href="#"><img src="@/assets/img/8674457_ic_fluent_cart_regular_icon.png" alt=""></a>
+        <a href="#" class="cart-icon">
+          <img src="@/assets/img/8675143_ic_fluent_person_regular_icon (1).png" alt="">
+        </a>
+        <div class="header__burger" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
     </header>
+
+  </header>
 </template>
 
 <style scoped>
-
-
 .header {
   display: flex;
   justify-content: space-between;
@@ -133,8 +131,7 @@ li {
   width: 700px;
   height: 650px;
 }
-
 </style>
 <script setup>
 
- </script>
+</script>
