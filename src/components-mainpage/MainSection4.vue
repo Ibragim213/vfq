@@ -70,7 +70,7 @@
   display: flex;
   align-items: center;
   margin: 0 auto 40px auto;
-  width: 1670px;
+
 
 }
 

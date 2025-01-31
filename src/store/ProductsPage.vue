@@ -1,71 +1,76 @@
 <template>
-    <h1>Список всех товаров</h1>
-
-    <div class="grid">
-        <div v-for="product in products" :key="product.id" class="product-card">
-            <img :src="product.images[0]" alt="" class="product-image">
-            <h4 class="product-title">{{ product.title }}</h4>
-            <p class="product-price">{{ product.price }} $</p>
-        </div>
+    <HeaderComponent :cartCounter="cartCounter" />
+  
+    <div class="filter-container">
+      <h2>Фильтр</h2>
+      <label>Тип мебели:</label>
+      <select v-model="filters.type">
+        <option value="">Все</option>
+        <option value="chair">Кресла</option>
+        <option value="sofa">Диваны</option>
+      </select>
+        
+      <button @click="applyFilter">Применить фильтр</button>
     </div>
-</template>
-
-<style scoped>
-h1 {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 20px;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  
+    <div class="container">
+      <div class="card-container">
+        <div class="card" v-for="(card, index) in filteredCards" :key="index">
+          <img src="https://via.placeholder.com/200" alt="">
+          <div class="card-body">
+            <h2 class="card-title">{{ card.title }}</h2>
+            <p class="card-text">{{ card.description }}</p>
+            <p class="card-text">Цена: {{ card.price }} руб.</p>
+            <button class="btn" @click="addToCart(card)">Добавить в корзину</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+  
+  <script setup>
+  import { ref, computed } from 'vue';
+  import HeaderComponent from '@/crosscomponents/HeaderComponent.vue';
+  
+  const cart = ref([]);
+  const cartCounter = ref(0);
+  const filters = ref({ type: '' });
+  
+  const cards = ref([
+    { type: 'chair', title: 'Кресло 1', price: 100, description: 'Удобное кресло.' },
+    { type: 'sofa', title: 'Диван 1', price: 200, description: 'Комфортный диван.' }
+  ]);
+  
+  const filteredCards = computed(() => {
+    return cards.value.filter(card => !filters.value.type || card.type === filters.value.type);
+  });
+  
+  function addToCart(card) {
+    const existingItem = cart.value.find(item => item.name === card.title);
+    if (existingItem) {
+      existingItem.quantity++;
+    } else {
+      cart.value.push({ name: card.title, price: card.price, quantity: 1 });
+    }
+    cartCounter.value = cart.value.reduce((acc, item) => acc + item.quantity, 0);
+  }
+  </script>
+  
+  <style scoped>
+  .card-container {
+    display: flex;
     gap: 20px;
+  }
+  .card {
     padding: 20px;
-}
-
-.product-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.2s ease-in-out;
     background-color: #fff;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.product-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.product-title {
-    font-size: 1.2rem;
-    margin: 10px;
-    text-align: center;
-}
-
-.product-price {
-    font-size: 1.1rem;
-    color: #333;
-    text-align: center;
-    margin: 10px;
-    font-weight: bold;
-}
-</style>
-
-<script setup>
-import { onMounted, ref } from 'vue';
-
-const products = ref([])
-
-onMounted(() => {
-    fetch('https://dummyjson.com/products')
-        .then((resp) => resp.json())
-        .then((json) => products.value = json.products)
-})
-</script>
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+  }
+  </style>
+  

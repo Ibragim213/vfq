@@ -1,40 +1,37 @@
 <template>
-  <header>
-    <header class="header">
-      <div class="header__logo">
-        <h1 class="mebel">Мебельный</h1>
-        <h2>мир</h2>
-      </div>
-      <nav class="header__nav">
-        <ul>
-          <router-link to="/home">
-            <li> Главная страница</li>
-          </router-link>
-          <router-link to="/store">
-            <li>Товары</li>
-          </router-link>
-          <li>О нас</li>
-          <li>Контакты</li>
-        </ul>
-      </nav>
-      <div class="header__actions">
-        <a href="#"><img class="photo_karzina" src="@/assets/img/8674457_ic_fluent_cart_regular_icon.png" alt=""></a>
-        <a href="#" class="cart-icon">
-          <img src="@/assets/img/8675143_ic_fluent_person_regular_icon (1).png" alt="">
-        </a>
-        <div class="header__burger" onclick="toggleMenu()">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </div>
-    </header>
-
+  <header class="header">
+    <div class="header__logo">
+      <h1 class="mebel">Мебельный</h1>
+      <h2>мир</h2>
+    </div>
+    <nav class="header__nav">
+      <ul>
+        <router-link to="/home"><li>Главная страница</li></router-link>
+        <router-link to="/store"><li>Товары</li></router-link>
+        <li>О нас</li>
+        <li>Контакты</li>
+      </ul>
+    </nav>
+    <div class="header__actions">
+      <li>
+        <img class="btn corzina" src="@/assets/img/8674457_ic_fluent_cart_regular_icon.png" alt="Корзина">
+        <span id="cart-counter">{{ cartCounter }}</span>
+      </li>
+      <a href="#" class="cart-icon">
+        <img src="@/assets/img/8675143_ic_fluent_person_regular_icon (1).png" alt="Профиль">
+      </a>
+    </div>
   </header>
 </template>
 
+<script setup>
+import { defineProps } from 'vue';
+defineProps({ cartCounter: Number });
+</script>
+
 <style scoped>
-.header {
+
+.header{
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -44,6 +41,13 @@
   position: sticky;
   top: 0;
   z-index: 1000;
+}
+.mebel {
+  color: #FFAD4C;
+  margin-right: 5px;
+}
+ul, li {
+  padding: 0;
 }
 .photo_karzina{
   width: 24px;
@@ -140,6 +144,3 @@ li {
   height: 650px;
 }
 </style>
-<script setup>
-
-</script>

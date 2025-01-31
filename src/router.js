@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import MainPage from '../src/pages/MainPage.vue'
 import NewPage from './pages/NewPage.vue';
 import StorePage from './pages/StorePage.vue'
+
 // тут мы создаем адрес страницы и куда переходим
 const routes = [
   {
@@ -21,6 +22,7 @@ component: NewPage,
     name: 'StorePage',
     component: StorePage,
   },
+  
 
 ];
 
