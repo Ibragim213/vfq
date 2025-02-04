@@ -1,17 +1,28 @@
-// тут у нас атрибуты страницы в виде маисва
-
 import { createRouter, createWebHistory } from 'vue-router';
-import MainPage from '../src/pages/MainPage.vue'
-import NewPage from './pages/NewPage.vue';
-import StorePage from './pages/StorePage.vue'
-import OnasSection1 from './components-mainpage/OnasSection1.vue';
 
-// тут мы создаем адрес страницы и куда переходим
+// Импортируем компонент
+import MainPage from '@/pages/MainPage.vue';
+import NewPage from '@/pages/NewPage.vue';
+import StorePage from '@/pages/StorePage.vue';
+import OnasSection1 from '@/components-mainpage/OnasSection1.vue';
+import OtzivSection from '@/components-mainpage/OtzivSection.vue';
+import ProductsPage from './store/ProductsPage.vue';
+
+// Определяем маршруты
 const routes = [
+  { 
+    path: '/', 
+    component: ProductsPage, // Главная страница с товарами
+  },
+  { 
+    path: '/product/:id', 
+    component: OtzivSection, 
+    props: true, // Передаем параметр id как props
+  },
   {
-path: '/new',
-name: 'NewPage',
-component: NewPage,
+    path: '/new',
+    name: 'NewPage',
+    component: NewPage,
   },
   {
     path: '/home',
@@ -23,14 +34,14 @@ component: NewPage,
     name: 'StorePage',
     component: StorePage,
   },
-  
-{
-  path: '/onas',
-  name: 'OnasPage',
-  component: OnasSection1,
-}
+  {
+    path: '/onas',
+    name: 'OnasPage',
+    component: OnasSection1,
+  }
 ];
 
+// Создаем роутер
 const router = createRouter({
   history: createWebHistory(),
   routes,

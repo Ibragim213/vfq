@@ -19,4 +19,5 @@ export default createStore({
   getters: {
     getProducts: (state) => state.products
   }
+  
 });
