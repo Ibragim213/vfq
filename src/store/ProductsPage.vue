@@ -1,76 +1,161 @@
 <template>
     <HeaderComponent :cartCounter="cartCounter" />
-  
-    <div class="filter-container">
-      <h2>Фильтр</h2>
-      <label>Тип мебели:</label>
-      <select v-model="filters.type">
-        <option value="">Все</option>
-        <option value="chair">Кресла</option>
-        <option value="sofa">Диваны</option>
-      </select>
-        
-      <button @click="applyFilter">Применить фильтр</button>
+    <div class="filter-container container">
+        <h2>Фильтр</h2>
+        <label class="filter-label">Тип мебели:</label>
+        <select v-model="filters.type">
+            <option value="">Все</option>
+            <option value="chair">Кресла</option>
+            <option value="sofa">Диваны</option>
+        </select>
+
+        <label class="filter-label">Материал:</label>
+        <select v-model="filters.material">
+            <option value="">Все</option>
+            <option value="wood">Дерево</option>
+            <option value="metal">Металл</option>
+        </select>
+
+        <label class="filter-label">Цвет:</label>
+        <select v-model="filters.color">
+            <option value="">Все</option>
+            <option value="light">Светлые</option>
+            <option value="dark">Темные</option>
+            <option value="bright">Яркие</option>
+        </select>
+
+        <label class="filter-label">Цена:</label>
+        <input type="number" v-model.number="filters.priceFrom" placeholder="От">
+        <input type="number" v-model.number="filters.priceTo" placeholder="До">
+
+        <label class="filter-label">Наличие:</label>
+        <select v-model="filters.availability">
+            <option value="">Все</option>
+            <option value="in-stock">В наличии</option>
+            <option value="on-order">Под заказ</option>
+        </select>
+
+        <button class="btn" @click="applyFilter">Применить фильтр</button>
+        <button class="btn" @click="resetFilters">Сбросить фильтр</button>
     </div>
-  
+    
     <div class="container">
       <div class="card-container">
-        <div class="card" v-for="(card, index) in filteredCards" :key="index">
-          <img src="https://via.placeholder.com/200" alt="">
+        <div class="card" v-for="card in filteredCards" :key="card.id">
+          <img :src="card.imageUrl || 'https://via.placeholder.com/200'" 
+               alt="Изображение товара" 
+               class="product-image">
           <div class="card-body">
             <h2 class="card-title">{{ card.title }}</h2>
             <p class="card-text">{{ card.description }}</p>
             <p class="card-text">Цена: {{ card.price }} руб.</p>
+            <p class="card-text">Материал: {{ card.material }}</p>
+            <p class="card-text">Цвет: {{ card.color }}</p>
+            <p class="card-text">Наличие: {{ card.availability === 'in-stock' ? 'В наличии' : 'Под заказ' }}</p>
             <button class="btn" @click="addToCart(card)">Добавить в корзину</button>
           </div>
         </div>
       </div>
     </div>
-  </template>
-  
-  <script setup>
-  import { ref, computed } from 'vue';
-  import HeaderComponent from '@/crosscomponents/HeaderComponent.vue';
-  
-  const cart = ref([]);
-  const cartCounter = ref(0);
-  const filters = ref({ type: '' });
-  
-  const cards = ref([
-    { type: 'chair', title: 'Кресло 1', price: 100, description: 'Удобное кресло.' },
-    { type: 'sofa', title: 'Диван 1', price: 200, description: 'Комфортный диван.' }
-  ]);
-  
-  const filteredCards = computed(() => {
-    return cards.value.filter(card => !filters.value.type || card.type === filters.value.type);
-  });
-  
-  function addToCart(card) {
-    const existingItem = cart.value.find(item => item.name === card.title);
+</template>
+
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+import axios from 'axios';
+import HeaderComponent from '@/crosscomponents/HeaderComponent.vue';
+
+const cart = ref([]);
+const cartCounter = ref(0);
+const products = ref([]);
+
+const filters = ref({
+    type: '',
+    material: '',
+    color: '',
+    priceFrom: null,
+    priceTo: null,
+    availability: ''
+});
+
+const appliedFilters = ref({ ...filters.value });
+
+onMounted(async () => {
+    try {
+        console.log("Loading products...");
+        const response = await axios.get('http://localhost:8080/api/products');
+        console.log("Products loaded:", response.data);
+        products.value = response.data;
+    } catch (error) {
+        console.error("Ошибка загрузки данных:", error.response || error);
+        alert("Не удалось загрузить данные с сервера.");
+    }
+});
+
+
+const filteredCards = computed(() => {
+    return products.value.filter(card => {
+        return (
+            (!appliedFilters.value.type || card.type === appliedFilters.value.type) &&
+            (!appliedFilters.value.material || card.material === appliedFilters.value.material) &&
+            (!appliedFilters.value.color || card.color === appliedFilters.value.color) &&
+            (!appliedFilters.value.priceFrom || card.price >= appliedFilters.value.priceFrom) &&
+            (!appliedFilters.value.priceTo || card.price <= appliedFilters.value.priceTo) &&
+            (!appliedFilters.value.availability || card.availability === appliedFilters.value.availability)
+        );
+    });
+});
+
+function applyFilter() {
+    appliedFilters.value = { ...filters.value };
+}
+
+function resetFilters() {
+    Object.assign(filters.value, {
+        type: '',
+        material: '',
+        color: '',
+        priceFrom: null,
+        priceTo: null,
+        availability: ''
+    });
+    applyFilter();
+}
+
+function addToCart(card) {
+    const existingItem = cart.value.find(item => item.id === card.id);
     if (existingItem) {
-      existingItem.quantity++;
+        existingItem.quantity++;
     } else {
-      cart.value.push({ name: card.title, price: card.price, quantity: 1 });
+        cart.value.push({ id: card.id, name: card.title, price: card.price, quantity: 1 });
     }
     cartCounter.value = cart.value.reduce((acc, item) => acc + item.quantity, 0);
-  }
-  </script>
-  
-  <style scoped>
-  .card-container {
+}
+</script>
+
+<style scoped>
+.card-container {
     display: flex;
     gap: 20px;
-  }
-  .card {
+    flex-wrap: wrap;
+}
+.card {
     padding: 20px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  .btn {
+    width: 250px;
+}
+.product-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+}
+.btn {
     background-color: #4CAF50;
     color: white;
     padding: 10px;
-  }
-  </style>
-  
+    margin-top: 10px;
+    cursor: pointer;
+}
+</style>

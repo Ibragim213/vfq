@@ -1,11 +1,3 @@
-import axios from 'axios';
-
-const apiClient = axios.create({
-    baseURL: 'http://localhost:8080/api', // Адрес Spring Boot API
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
 
 export default {
     getProducts() {
@@ -16,10 +8,9 @@ export default {
     },
 
 };
-export async function fetchProducts() {
-    return [
-      { type: 'chair', title: 'Кресло 1', price: 100, description: 'Удобное кресло.' },
-      { type: 'sofa', title: 'Диван 1', price: 200, description: 'Комфортный диван.' }
-    ];
-  }
-  
+const API_URL = 'http://localhost:8080/api';
+
+export async function getProducts() {
+  const response = await fetch(`${API_URL}/products`);
+  return await response.json();
+}
