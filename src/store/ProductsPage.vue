@@ -42,9 +42,7 @@
     <div class="container">
       <div class="card-container">
         <div class="card" v-for="card in filteredCards" :key="card.id">
-          <img :src="card.imageUrl || 'https://via.placeholder.com/200'" 
-               alt="Изображение товара" 
-               class="product-image">
+            
           <div class="card-body">
             <h2 class="card-title">{{ card.title }}</h2>
             <p class="card-text">{{ card.description }}</p>
@@ -137,7 +135,9 @@ function addToCart(card) {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
+    margin-top: 20px;
 }
+
 .card {
     padding: 20px;
     background-color: #fff;
@@ -158,4 +158,5 @@ function addToCart(card) {
     margin-top: 10px;
     cursor: pointer;
 }
+
 </style>
