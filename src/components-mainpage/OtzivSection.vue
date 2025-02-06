@@ -8,12 +8,8 @@
       <p class="material"><strong>Материал обивки:</strong> {{ product.material }}</p>
 
       <div class="colors">
-        <p><strong>Цвет:</strong></p>
+        <p><strong>Цвет:</strong>{{ product.color }}</p>
         <span
-          v-for="(color, index) in product.colors"
-          :key="index"
-          :style="{ backgroundColor: color }"
-          class="color-circle"
         ></span>
       </div>
 
