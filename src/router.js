@@ -9,6 +9,7 @@ import OtzivSection from '@/components-mainpage/OtzivSection.vue';
 import ProductsPage from './store/ProductsPage.vue';
 import RegisterSection from './components-mainpage/RegisterSection.vue';
 import LoginSection from './components-mainpage/LoginSection.vue';
+import TovarPage from './pages/TovarPage.vue';
 
 // Определяем маршруты
 const routes = [
@@ -16,6 +17,7 @@ const routes = [
   { path: '/product/:id', component: OtzivSection, props: true },
   { path: '/new', name: 'NewPage', component: NewPage },
   { path: '/home', name: 'HomePage', component: MainPage },
+  {path: '/tovar', name: 'TovarPage', component: TovarPage},
   { path: '/store', name: 'StorePage', component: StorePage },
   { path: '/register', name: 'RegisterPage', component: RegisterSection },
   { path: '/login', name: 'LoginPage', component: LoginSection },

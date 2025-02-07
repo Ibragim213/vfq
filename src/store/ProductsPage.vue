@@ -6,23 +6,23 @@
       <label class="filter-label">Тип мебели:</label>
       <select v-model="filters.type">
         <option value="">Все</option>
-        <option value="chair">Кресла</option>
-        <option value="sofa">Диваны</option>
+        <option value="кресла">Кресла</option>
+        <option value="диван">Диваны</option>
       </select>
 
       <label class="filter-label">Материал:</label>
       <select v-model="filters.material">
         <option value="">Все</option>
-        <option value="wood">Дерево</option>
-        <option value="metal">Металл</option>
+        <option value="дерево">Дерево</option>
+        <option value="металл">Металл</option>
       </select>
 
       <label class="filter-label">Цвет:</label>
       <select v-model="filters.color">
         <option value="">Все</option>
-        <option value="light">Светлые</option>
-        <option value="dark">Темные</option>
-        <option value="bright">Яркие</option>
+        <option value="светлый">Светлые</option>
+        <option value="темный">Темные</option>
+        <option value="яркий">Яркие</option>
       </select>
 
       <label class="filter-label">Цена:</label>
@@ -32,8 +32,8 @@
       <label class="filter-label">Наличие:</label>
       <select v-model="filters.availability">
         <option value="">Все</option>
-        <option value="in-stock">В наличии</option>
-        <option value="on-order">Под заказ</option>
+        <option value="в наличии">В наличии</option>
+        <option value="под заказ">Под заказ</option>
       </select>
 
       <button class="btn" @click="applyFilter">Применить фильтр</button>
@@ -100,20 +100,21 @@ onMounted(async () => {
 // Фильтрация товаров
 const filteredCards = computed(() => {
   return products.value.filter((card) => {
-    return (
-      (!filters.value.type || card.type === filters.value.type) &&
-      (!filters.value.material || card.material === filters.value.material) &&
-      (!filters.value.color || card.color === filters.value.color) &&
-      (!filters.value.priceFrom || card.price >= filters.value.priceFrom) &&
-      (!filters.value.priceTo || card.price <= filters.value.priceTo) &&
-      (!filters.value.availability || card.availability === filters.value.availability)
-    );
+    const matchesType = !filters.value.type || card.type === filters.value.type;
+    const matchesMaterial = !filters.value.material || card.material.toLowerCase().includes(filters.value.material.toLowerCase());
+    const matchesColor = !filters.value.color || card.color.toLowerCase().includes(filters.value.color.toLowerCase());
+    const matchesPriceFrom = !filters.value.priceFrom || card.price >= filters.value.priceFrom;
+    const matchesPriceTo = !filters.value.priceTo || card.price <= filters.value.priceTo;
+    const matchesAvailability = !filters.value.availability || card.availability === filters.value.availability;
+
+    return matchesType && matchesMaterial && matchesColor && matchesPriceFrom && matchesPriceTo && matchesAvailability;
   });
 });
 
 // Применение фильтров
 function applyFilter() {
-  // Фильтрация уже происходит автоматически через computed, ничего дополнительно не нужно
+  console.log('Примененные фильтры:', filters.value);
+  console.log('Отфильтрованные товары:', filteredCards.value);
 }
 
 // Сброс фильтров
@@ -127,7 +128,7 @@ function resetFilters() {
     availability: '',
   };
 }
-  
+
 // Добавление товара в корзину
 function addToCart(card) {
   const existingItem = cart.value.find((item) => item.id === card.id);

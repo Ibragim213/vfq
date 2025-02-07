@@ -1,16 +1,13 @@
 <template>
   <div class="product-container">
-    <div class="product-image">
-      <img :src="product.image" alt="Изображение товара" />
-    </div>
+    <div class="product-image-placeholder"></div>
     <div class="product-details">
       <h1>{{ product.name }}</h1>
       <p class="material"><strong>Материал обивки:</strong> {{ product.material }}</p>
 
       <div class="colors">
-        <p><strong>Цвет:</strong>{{ product.color }}</p>
-        <span
-        ></span>
+        <p><strong>Цвет:</strong></p>
+        <span class="color-circle" v-for="(color, index) in product.colors" :key="index" :style="{ backgroundColor: color }"></span>
       </div>
 
       <div class="sizes">
@@ -24,13 +21,12 @@
 
       <div class="price-section">
         <span class="price">{{ product.price }} ₽</span>
-        <span class="old-price">{{ product.oldPrice }} ₽</span>
+        <span class="old-price" v-if="product.oldPrice">{{ product.oldPrice }} ₽</span>
       </div>
 
       <div class="description">
         <p><strong>Описание</strong></p>
         <p>{{ product.description }}</p>
-        <a href="#">Подробнее</a>
       </div>
 
       <div class="quantity">
@@ -51,14 +47,17 @@ import { useRoute } from "vue-router";
 export default {
   data() {
     return {
-      product: {},
+      product: {
+        colors: [],
+        sizes: {},
+      },
       quantity: 1,
     };
   },
   methods: {
     fetchProduct(id) {
       axios
-        .get(`http://localhost:8080/api/products/${id}`) // Используем id из маршрута
+        .get(`http://localhost:8080/api/products/${id}`)
         .then((response) => {
           this.product = response.data;
         })
@@ -73,14 +72,13 @@ export default {
       this.quantity++;
     },
     addToCart(product) {
-      // Логика добавления товара в корзину
       console.log("Товар добавлен в корзину:", product);
     },
   },
   mounted() {
     const route = useRoute();
-    const productId = route.params.id; // Получаем id из маршрута
-    this.fetchProduct(productId); // Загружаем данные товара
+    const productId = route.params.id;
+    this.fetchProduct(productId);
   },
 };
 </script>
@@ -89,15 +87,16 @@ export default {
 .product-container {
   display: flex;
   gap: 20px;
-  max-width: 900px;
+  max-width: 1000px;
   margin: auto;
   font-family: Arial, sans-serif;
 }
 
-.product-image img {
-  width: 350px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+.product-image-placeholder {
+  width: 683px;
+  height: 720px;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
 }
 
 .product-details {
