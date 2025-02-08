@@ -15,7 +15,7 @@ import HeaderComponent from '@/crosscomponents/HeaderComponent.vue';
 
  // тут собираем страницу что будет входить в нее
   export default {
-    name: 'OtzivPage',
+    name: 'TovarPage',
     components: {
     
         HeaderComponent,

@@ -86,9 +86,14 @@ margin-top: 50px;
 }
 
 .gf {
-  width: 520px;
-  height: 584px;
+  width: 100%;          /* Растягиваем изображение на всю доступную ширину */
+  max-width: 520px;     /* Ограничиваем максимальную ширину */
+  height: auto;         /* Поддержка пропорций */
+  object-fit: contain;  /* Гарантирует, что фото впишется без обрезки */
+  display: block;
+  margin: 0 auto;       /* Центрируем изображение */
 }
+
 
 .a2 {
   background-color: rgba(249, 249, 249, 0.15);

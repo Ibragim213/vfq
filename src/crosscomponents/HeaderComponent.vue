@@ -18,20 +18,20 @@
         <span id="cart-counter">{{ cartCounter }}</span>
       </li>
       <a href="#" class="cart-icon">
-        <img src="@/assets/img/8675143_ic_fluent_person_regular_icon (1).png" alt="Профиль">
+       <router-link to="/user"> <img src="@/assets/img/8675143_ic_fluent_person_regular_icon (1).png" alt="Профиль"> </router-link>
       </a>
     </div>
   </header>
 </template>
 
 <script setup>
+
 import { defineProps } from 'vue';
 defineProps({ cartCounter: Number });
 </script>
-
 <style scoped>
-
-.header{
+/* Общие стили для хедера */
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -42,25 +42,19 @@ defineProps({ cartCounter: Number });
   top: 0;
   z-index: 1000;
 }
+
+/* Логотип */
+.header__logo {
+  display: flex;
+  align-items: center;
+}
+
 .mebel {
   color: #FFAD4C;
   margin-right: 5px;
 }
-ul, li {
-  padding: 0;
-}
-.photo_karzina{
-  width: 24px;
-  height: 24px;
-}
 
-.header__logo .logo-text {
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
-  text-decoration: none;
-}
-
+/* Навигация */
 .header__nav ul {
   display: flex;
   gap: 1rem;
@@ -73,34 +67,29 @@ ul, li {
   color: #333;
 }
 
+/* Действия (иконки корзины и профиля) */
 .header__actions {
   display: flex;
   gap: 1rem;
   align-items: center;
 }
 
-.header__logo {
-  display: flex;
-  align-items: center;
+.cart-icon img,
+.corzina {
+  height: 32px;
+  width: 32px;
 }
 
-.cart-icon img {
-  height: 24px;
+.phoro {
+  width: 100%;         /* Растягиваем на всю доступную ширину */
+  max-width: 700px;    /* Ограничиваем максимальную ширину */
+  height: auto;        /* Поддержка пропорций */
+  object-fit: contain; /* Гарантирует, что фото впишется без обрезки */
+  display: block;
+  margin: 0 auto;      /* Центрируем изображение */
 }
 
-.header__burger {
-  display: none;
-  flex-direction: column;
-  gap: 4px;
-  cursor: pointer;
-}
-
-.header__burger span {
-  width: 24px;
-  height: 2px;
-  background-color: #333;
-}
-
+/* Адаптивность */
 @media (max-width: 768px) {
   .header__nav {
     display: none;
@@ -121,26 +110,5 @@ ul, li {
   .header__burger {
     display: flex;
   }
-}
-
-.corzina {
-  height: 24px;
-}
-
-.mebel {
-  color: #FFAD4C;
-  margin-right: 5px;
-}
-
-ul,
-li {
-  Padding: 0;
-}
-
-
-
-.phoro {
-  width: 700px;
-  height: 650px;
 }
 </style>

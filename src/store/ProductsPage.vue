@@ -6,7 +6,7 @@
       <label class="filter-label">Тип мебели:</label>
       <select v-model="filters.type">
         <option value="">Все</option>
-        <option value="кресла">Кресла</option>
+        <option value="кресло">Кресла</option>
         <option value="диван">Диваны</option>
       </select>
 
