@@ -1,77 +1,63 @@
 <template>
-
-
   <!-- Распродажа -->
   <section style="margin-top: 120px;">
-    <div class="categories-top ">
+    <div class="categories-top">
       <h3>Распродажа</h3>
       <div class="categories-line"></div>
       <button class="categories-nav">
-        <p>Все товары</p>
+        <router-link to="/store"><p>Все товары</p></router-link>
       </button>
     </div>
 
     <div class="products container">
-
-      <div class="product">
-        <div class="bacground-sofa">
-          <a href=""><img src="@/assets/img/sofa1.png" alt=""></a>
-          <a href="">
-            <p class="discount">-50%</p>
-          </a>
+      <div class="product" v-for="product in limitedProducts" :key="product.id">
+        <div class="bacground-sofa" @click="goToProduct(product.id)">
+          <img :src="getImageUrl(product.image)" :alt="product.name">
+          <p class="discount" v-if="product.discount">-{{ product.discount }}%</p>
         </div>
         <div class="price">
-          <a href="">
-            <p>10000 <img src="@/assets/img/ruble.png" alt="рублей"></p>
-          </a>
-          <a class="" href="">
-            <p>20000<img src="@/assets/img/ruble.png" alt="рублей"></p>
-          </a>
-        </div>
-      </div>
-      <div class="product">
-        <div class="bacground-sofa">
-          <a href=""><img src="@/assets/img/sofa2.png" alt=""></a>
-          <a href="">
-            <p class="discount">-50%</p>
-          </a>
-        </div>
-        <div class="price">
-          <a href="">
-            <p>10000 <img src="@/assets/img/ruble.png" alt="рублей"></p>
-          </a>
-          <a href="">
-            <p>20000<img src="@/assets/img/ruble.png" alt="рублей"></p>
-          </a>
-        </div>
-      </div>
-      <div class="product">
-        <div class="bacground-sofa">
-          <a href="#"><img src="@/assets/img/sofa3.png" alt=""></a>
-          <a href="#">
-            <p class="discount">-50%</p>
-          </a>
-        </div>
-        <div class="price">
-          <a href="">
-            <p>10000 <img src="@/assets/img/ruble.png" alt="рублей"></p>
-          </a>
-          <a href="">
-            <p>20000<img src="@/assets/img/ruble.png" alt="рублей"></p>
-          </a>
+          <p>{{ product.price }} <img src="@/assets/img/ruble.png" alt="рублей"></p>
+          <p v-if="product.oldPrice" class="old-price">{{ product.oldPrice }} <img src="@/assets/img/ruble.png" alt="рублей"></p>
         </div>
       </div>
     </div>
   </section>
 </template>
+
+<script setup>
+import { ref, onMounted, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+
+const router = useRouter();
+const products = ref([]);
+
+const fetchProducts = async () => {
+  try {
+    const response = await axios.get('http://localhost:8080/api/products');
+    products.value = response.data;
+  } catch (error) {
+    console.error('Ошибка при загрузке товаров:', error);
+  }
+};
+
+const limitedProducts = computed(() => products.value.slice(0, 3));
+
+const getImageUrl = (imageName) => new URL(`/src/assets/img/${imageName}`, import.meta.url).href;
+
+const goToProduct = (productId) => {
+  router.push(`/product/${productId}`);
+};
+
+onMounted(fetchProducts);
+</script>
+
 <style scoped>
 /* распродажа */
 .categories-top {
   display: flex;
   align-items: center;
   margin: 0 auto 40px auto;
-
-
 }
 
 .categories-line {
@@ -82,7 +68,6 @@
 }
 
 .categories-nav {
-  background-color: transparent;
   background-color: rgba(156, 156, 156, 1);
   border: none;
   color: white;
@@ -113,6 +98,7 @@ p {
 .product {
   height: 364px;
   position: relative;
+  cursor: pointer;
 }
 
 .discount {
@@ -127,7 +113,6 @@ p {
   right: 22px;
   top: 27px;
   color: white;
-
 }
 
 .bacground-sofa {
@@ -154,15 +139,10 @@ p {
   line-height: 47.4px;
   display: flex;
   align-items: center;
-
 }
 
-.price a:nth-child(2) {
+.old-price {
   color: rgba(0, 0, 0, 0.52);
   text-decoration: line-through;
-
 }
 </style>
-<script setup>
-// тут скрипт
-</script>

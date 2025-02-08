@@ -13,7 +13,7 @@
         <span v-for="(slide, index) in slides" :key="index" :class="{ active: index === currentIndex }"
           @click="goToSlide(index)"></span>
       </div>
-      <button class="custom-button"><a href="">Перейти</a></button>
+     <router-link to="/store"><button class="custom-button"><a href="">Перейти</a></button></router-link> 
     </div>
   </section>
 </template>

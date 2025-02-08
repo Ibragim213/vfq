@@ -1,5 +1,5 @@
 <template>
-    <div class="contact-container">
+    <div class="contact-container" style="margin-top: 20px;">
       <div class="contact-info">
         <h2>Контакты</h2>
         <p><strong>Адрес:</strong> 426011 г. Ижевск, ул. Пушкинская, 290</p>
@@ -91,6 +91,7 @@
   
   <style scoped>
   .contact-container {
+  margin-top:  20px; ;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;

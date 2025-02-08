@@ -10,7 +10,7 @@
           </h1>
         </div>
         <div class="aa">
-          <a class="a2" href="#">Посмотреть товары</a>
+          <router-link to="/store"> <a class="a2" href="#">Посмотреть товары</a></router-link>
         </div>
         <p class="pa">
           В нашем бренде мы верим, что мебель — это не просто предметы интерьера,<br> а отражение вашего стиля и
@@ -103,5 +103,7 @@ margin-top: 50px;
 }
 </style>
 <script setup>
+
+
 // тут скрипт
 </script>

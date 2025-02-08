@@ -16,17 +16,17 @@
       <div class="right">
         <div class="one-item">
           <router-link to="/home"><li>Главная страница</li></router-link>
-          <a href="#"><p>Новые поступления</p></a>
-          <a href="#"><p>Хиты продаж</p></a>
+          <router-link to="/store">  <a href="#"><p>Новые поступления</p></a></router-link>
+          <router-link to="/store"> <a href="#"><p>Хиты продаж</p></a></router-link>
           <router-link to="/store"><li>Товары</li></router-link>
           <a href="#"><p>Категории</p></a>
         </div>
         <div class="two-item">
-          <a href="#">Категории</a>
-          <a href="#"><p>Стулья</p></a>
-          <a href="#"><p>Диваны</p></a>
-          <a href="#"><p>Кресла</p></a>
-          <a href="#"><p>Кровати</p></a>
+          <router-link to="/store"><a href="#">Категории</a></router-link>
+            <router-link to="/store"> <a href="#"><p>Стулья</p></a></router-link>
+              <router-link to="/store"> <a href="#"><p>Диваны</p></a></router-link>
+                <router-link to="/store"><a href="#"><p>Кресла</p></a></router-link>
+                  <router-link to="/store">   <a href="#"><p>Кровати</p></a></router-link>
         </div>
       </div>
     </div>

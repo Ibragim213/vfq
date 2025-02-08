@@ -1,5 +1,5 @@
 <template>
-  <header class="header">
+  <header>
     <div class="header__logo">
       <h1 class="mebel">Мебельный</h1>
       <h2>мир</h2>
@@ -8,8 +8,7 @@
       <ul>
         <router-link to="/home"><li>Главная страница</li></router-link>
         <router-link to="/store"><li>Товары</li></router-link>
-        <li>О нас</li>
-        <li>Контакты</li>
+      <router-link to="/onas"> <li>Контакты</li></router-link>
       </ul>
     </nav>
     <div class="header__actions">
@@ -31,14 +30,14 @@ defineProps({ cartCounter: Number });
 </script>
 <style scoped>
 /* Общие стили для хедера */
-.header {
+header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: sticky;
+
   top: 0;
   z-index: 1000;
 }

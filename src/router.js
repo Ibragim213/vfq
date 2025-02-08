@@ -4,7 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import MainPage from '@/pages/MainPage.vue';
 import NewPage from '@/pages/NewPage.vue';
 import StorePage from '@/pages/StorePage.vue';
-import OnasSection1 from '@/components-mainpage/OnasSection1.vue';
+import Onas from '@/pages/OnasPage.vue';
 
 import ProductsPage from './store/ProductsPage.vue';
 import RegisterSection from './components-mainpage/RegisterSection.vue';
@@ -28,7 +28,7 @@ const routes = [
   },
   { path: '/register', name: 'RegisterPage', component: RegisterSection },
   { path: '/login', name: 'LoginPage', component: LoginSection },
-  { path: '/onas', name: 'OnasPage', component: OnasSection1 }
+  {path: '/onas', name: 'OnasPage', component: Onas}
 ];
 
 // Создаем роутер

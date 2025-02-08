@@ -26,8 +26,7 @@ export default {
         const response = await axios.post("http://localhost:8080/api/auth/login", null, {
           params: { email: this.email, password: this.password },
         });
-        alert("Успешный вход!");
-        localStorage.setItem("token", response.data);
+        localStorage.setItem("authToken", response.data.token);
         this.$router.push("/");
       } catch (error) {
         alert("Ошибка входа: " + (error.response?.data || "Неверные данные"));
