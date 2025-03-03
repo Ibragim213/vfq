@@ -1,44 +1,52 @@
-import { createStore } from 'vue';
+import { createRouter, createWebHistory } from 'vue-router';
 
-export default createStore({
-  state: {
-    products: [],
-    loading: false, // Состояние загрузки
-    error: null, // Ошибка при запросах
+// Импортируем страницы
+import MainPage from '@/pages/MainPage.vue';
+import NewPage from '@/pages/NewPage.vue';
+import StorePage from '@/pages/StorePage.vue';
+import Onas from '@/pages/OnasPage.vue';
+
+import ProductsPage from './store/ProductsPage.vue';
+import RegisterSection from './components-mainpage/RegisterSection.vue';
+import LoginSection from './components-mainpage/LoginSection.vue';
+import TovarPage from './pages/TovarPage.vue';
+import UserPage from './pages/UserPage.vue';
+
+// Определяем маршруты
+const routes = [
+  { path: '/', component: ProductsPage },
+  { path: '/product/:id', component: TovarPage, props: true },
+  { path: '/new', name: 'NewPage', component: NewPage },
+  { path: '/home', name: 'HomePage', component: MainPage },
+  { path: '/tovar', name: 'TovarPage', component: TovarPage },
+  { path: '/store', name: 'StorePage', component: StorePage },
+  {
+    path: "/user/:id",  // Добавляем параметр id
+    name: "user",
+    component: UserPage,
+    meta: { requiresAuth: true },  // Требуется аутентификация для этой страницы
+    props: true,  // Передаем параметры как props
   },
-  mutations: {
-    setProducts(state, products) {
-      state.products = products;
-    },
-    setLoading(state, loading) {
-      state.loading = loading;
-    },
-    setError(state, error) {
-      state.error = error;
-    },
-  },
-  actions: {
-    async fetchProducts({ commit }) {
-      commit('setLoading', true);
-      commit('setError', null); // Сбрасываем предыдущие ошибки
-      try {
-        const response = await fetch('http://localhost:8080/api/products');
-        if (!response.ok) {
-          throw new Error('Ошибка загрузки продуктов');
-        }
-        const data = await response.json();
-        commit('setProducts', data);
-      } catch (error) {
-        console.error('Ошибка при загрузке продуктов:', error);
-        commit('setError', error.message); // Сохраняем ошибку в состоянии
-      } finally {
-        commit('setLoading', false);
-      }
-    },
-  },
-  getters: {
-    getProducts: (state) => state.products,
-    isLoading: (state) => state.loading,
-    error: (state) => state.error, // Геттер для ошибки
-  },
+  { path: '/register', name: 'RegisterPage', component: RegisterSection },
+  { path: '/login', name: 'LoginPage', component: LoginSection },
+  { path: '/onas', name: 'OnasPage', component: Onas },
+];
+
+// Создаем роутер
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
 });
+
+// Перехватчик для проверки аутентификации
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token');  // Проверка токена в localStorage
+  if (to.meta.requiresAuth && !token) {
+    // Если страница требует авторизации и токен отсутствует, перенаправляем на страницу входа
+    next('/login');
+  } else {
+    next();
+  }
+});
+
+export default router;

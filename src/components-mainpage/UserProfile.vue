@@ -1,65 +1,58 @@
 <template>
-    <div class="user-profile">
-      <h2>Профиль пользователя</h2>
-      <div v-if="user">
-        <p><strong>Имя:</strong> {{ user.firstName }}</p>
-        <p><strong>Фамилия:</strong> {{ user.lastName }}</p>
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <p><strong>Телефон:</strong> {{ user.phoneNumber }}</p>
-        <!-- Добавьте дополнительные поля, если нужно -->
-      </div>
-      <div v-else>
-        <p>Вы не авторизованы. Пожалуйста, <router-link to="/login">войдите</router-link>.</p>
-      </div>
+  <div>
+    <h1>Профиль пользователя</h1>
+    <div v-if="user">
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Имя:</strong> {{ user.firstName }}</p>
+      <p><strong>Фамилия:</strong> {{ user.lastName }}</p>
+      <p><strong>Телефон:</strong> {{ user.phoneNumber }}</p>
     </div>
-  </template>
-  
-  <script>
-  import axios from 'axios';
-  
-  export default {
-    name: 'UserProfile',
-    data() {
-      return {
-        user: null,
-        error: null,
-      };
-    },
-    created() {
-      this.fetchUserData();
-    },
-    methods: {
-      async fetchUserData() {
+    <div v-else>
+      <p>Загрузка данных о пользователе...</p>
+    </div>
+  </div>
+</template>
+
+<script>
+import { ref, onMounted } from 'vue';
+
+export default {
+  setup() {
+    const user = ref(null);
+
+    onMounted(async () => {
+      try {
+        console.log('Загрузка данных о пользователе...');
+
+        // Получаем токен из localStorage
         const token = localStorage.getItem('token');
-        if (!token) {
-          this.error = 'Токен не найден';
-          this.user = null;
-          return;
+
+        const response = await fetch('http://localhost:8080/api/user', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Данные о пользователе загружены:', data);
+          user.value = data;
+        } else {
+          console.error('Ошибка загрузки данных:', response.statusText);
+          alert('Не удалось загрузить данные с сервера.');
         }
-        try {
-          const response = await axios.get('http://localhost:8080/api/user', {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          this.user = response.data;
-        } catch (error) {
-          console.error("Ошибка получения данных пользователя", error);
-          this.error = 'Ошибка получения данных пользователя';
-          this.user = null;
-        }
-      },
-    },
-  };
-  </script>
-  
-  <style scoped>
-  .user-profile {
-    padding: 20px;
-  }
-  .user-profile h2 {
-    margin-bottom: 20px;
-  }
-  .user-profile p {
-    margin: 5px 0;
-  }
-  </style>
-  
+      } catch (error) {
+        console.error('Ошибка загрузки данных:', error);
+        alert('Не удалось загрузить данные с сервера.');
+      }
+    });
+
+    return { user };
+  },
+};
+</script>
+
+<style scoped>
+</style>

@@ -6,28 +6,34 @@
     </div>
     <nav class="header__nav">
       <ul>
-        <router-link to="/home"><li>Главная страница</li></router-link>
-        <router-link to="/store"><li>Товары</li></router-link>
-      <router-link to="/onas"> <li>Контакты</li></router-link>
+        <li><router-link to="/home">Главная страница</router-link></li>
+        <li><router-link to="/store">Товары</router-link></li>
+        <li><router-link to="/onas">Контакты</router-link></li>
       </ul>
     </nav>
     <div class="header__actions">
-      <li>
+      <div class="cart-icon">
         <img class="btn corzina" src="@/assets/img/8674457_ic_fluent_cart_regular_icon.png" alt="Корзина">
         <span id="cart-counter">{{ cartCounter }}</span>
-      </li>
-      <a href="#" class="cart-icon">
-       <router-link to="/user"> <img src="@/assets/img/8675143_ic_fluent_person_regular_icon (1).png" alt="Профиль"> </router-link>
-      </a>
+      </div>
+      <router-link to="/user">
+        <img src="@/assets/img/8675143_ic_fluent_person_regular_icon (1).png" alt="Профиль">
+      </router-link>
     </div>
   </header>
 </template>
 
 <script setup>
-
 import { defineProps } from 'vue';
-defineProps({ cartCounter: Number });
+
+defineProps({
+  cartCounter: {
+    type: Number,
+    required: true,
+  },
+});
 </script>
+
 <style scoped>
 /* Общие стили для хедера */
 header {
@@ -37,7 +43,6 @@ header {
   padding: 1rem;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
   top: 0;
   z-index: 1000;
 }
@@ -77,15 +82,6 @@ header {
 .corzina {
   height: 32px;
   width: 32px;
-}
-
-.phoro {
-  width: 100%;         /* Растягиваем на всю доступную ширину */
-  max-width: 700px;    /* Ограничиваем максимальную ширину */
-  height: auto;        /* Поддержка пропорций */
-  object-fit: contain; /* Гарантирует, что фото впишется без обрезки */
-  display: block;
-  margin: 0 auto;      /* Центрируем изображение */
 }
 
 /* Адаптивность */

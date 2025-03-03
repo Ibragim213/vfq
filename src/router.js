@@ -21,10 +21,11 @@ const routes = [
   { path: '/tovar', name: 'TovarPage', component: TovarPage },
   { path: '/store', name: 'StorePage', component: StorePage },
   {
-    path: "/user",
+    path: "/user/:id",  // Параметр id обязателен
     name: "user",
     component: UserPage,
-    meta: { requiresAuth: true },  // Требуется аутентификация для этой страницы
+    meta: { requiresAuth: true },  // Требуется аутентификация
+    props: true,  // Передаем параметры как props
   },
   { path: '/register', name: 'RegisterPage', component: RegisterSection },
   { path: '/login', name: 'LoginPage', component: LoginSection },

@@ -1,41 +1,57 @@
 <template>
   <div class="product-container">
-    <div class="product-image-placeholder"></div>
-    <div class="product-details">
-      <h1>{{ product.name }}</h1>
-      <p class="material"><strong>Материал обивки:</strong> {{ product.material }}</p>
+    <!-- Индикатор загрузки -->
+    <div v-if="isLoading" class="loading">Загрузка...</div>
 
-      <div class="colors">
-        <p><strong>Цвет:</strong></p>
-        <span class="color-circle" v-for="(color, index) in product.colors" :key="index" :style="{ backgroundColor: color }"></span>
+    <!-- Сообщение об ошибке -->
+    <div v-if="error" class="error">Ошибка загрузки данных: {{ error.message }}</div>
+
+    <!-- Данные товара -->
+    <div v-if="!isLoading && !error">
+      <div class="product-image-placeholder">
+        <img class="img" :src="product.image" :alt="product.name" />
       </div>
+      <div class="product-details">
+        <h1>{{ product.name }}</h1>
+        <p class="material"><strong>Материал обивки:</strong> {{ product.material }}</p>
 
-      <div class="sizes">
-        <p><strong>Размеры:</strong></p>
-        <ul>
-          <li v-for="(size, key) in product.sizes" :key="key">
-            • <strong>{{ key }}:</strong> {{ size }}
-          </li>
-        </ul>
+        <div class="colors">
+          <p><strong>Цвет:</strong></p>
+          <span
+            class="color-circle"
+            v-for="(color, index) in product.colors"
+            :key="index"
+            :style="{ backgroundColor: color }"
+          ></span>
+        </div>
+
+        <div class="sizes">
+          <p><strong>Размеры:</strong></p>
+          <ul>
+            <li v-for="(size, key) in product.sizes" :key="key">
+              • <strong>{{ key }}:</strong> {{ size }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="price-section">
+          <span class="price">{{ product.price }} ₽</span>
+          <span class="old-price" v-if="product.oldPrice">{{ product.oldPrice }} ₽</span>
+        </div>
+
+        <div class="description">
+          <p><strong>Описание</strong></p>
+          <p>{{ product.description }}</p>
+        </div>
+
+        <div class="quantity">
+          <button @click="decreaseQuantity" :disabled="quantity <= 1">-</button>
+          <span>{{ quantity }}</span>
+          <button @click="increaseQuantity" :disabled="quantity >= 10">+</button>
+        </div>
+
+        <button class="add-to-cart" @click="addToCart(product)">Добавить в корзину</button>
       </div>
-
-      <div class="price-section">
-        <span class="price">{{ product.price }} ₽</span>
-        <span class="old-price" v-if="product.oldPrice">{{ product.oldPrice }} ₽</span>
-      </div>
-
-      <div class="description">
-        <p><strong>Описание</strong></p>
-        <p>{{ product.description }}</p>
-      </div>
-
-      <div class="quantity">
-        <button @click="decreaseQuantity">-</button>
-        <span>{{ quantity }}</span>
-        <button @click="increaseQuantity">+</button>
-      </div>
-
-      <button class="add-to-cart" @click="addToCart(product)">Добавить в корзину</button>
     </div>
   </div>
 </template>
@@ -43,42 +59,57 @@
 <script>
 import axios from "axios";
 import { useRoute } from "vue-router";
+import { ref, onMounted } from "vue";
 
 export default {
-  data() {
-    return {
-      product: {
-        colors: [],
-        sizes: {},
-      },
-      quantity: 1,
-    };
-  },
-  methods: {
-    fetchProduct(id) {
-      axios
-        .get(`http://localhost:8080/api/products/${id}`)
-        .then((response) => {
-          this.product = response.data;
-        })
-        .catch((error) => {
-          console.error("Ошибка при загрузке товара:", error);
-        });
-    },
-    decreaseQuantity() {
-      if (this.quantity > 1) this.quantity--;
-    },
-    increaseQuantity() {
-      this.quantity++;
-    },
-    addToCart(product) {
-      console.log("Товар добавлен в корзину:", product);
-    },
-  },
-  mounted() {
+  setup() {
     const route = useRoute();
-    const productId = route.params.id;
-    this.fetchProduct(productId);
+    const product = ref({
+      colors: [],
+      sizes: {},
+    });
+    const quantity = ref(1);
+    const isLoading = ref(true);
+    const error = ref(null);
+
+    const fetchProduct = async (id) => {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/products/${id}`);
+        product.value = response.data;
+      } catch (err) {
+        error.value = err;
+        console.error("Ошибка при загрузке товара:", err);
+      } finally {
+        isLoading.value = false;
+      }
+    };
+
+    const decreaseQuantity = () => {
+      if (quantity.value > 1) quantity.value--;
+    };
+
+    const increaseQuantity = () => {
+      if (quantity.value < 10) quantity.value++;
+    };
+
+    const addToCart = (product) => {
+      console.log("Товар добавлен в корзину:", product);
+    };
+
+    onMounted(() => {
+      const productId = route.params.id;
+      fetchProduct(productId);
+    });
+
+    return {
+      product,
+      quantity,
+      isLoading,
+      error,
+      decreaseQuantity,
+      increaseQuantity,
+      addToCart,
+    };
   },
 };
 </script>
@@ -157,6 +188,11 @@ h1 {
   cursor: pointer;
 }
 
+.quantity button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 .add-to-cart {
   background-color: #4b564d;
   color: white;
@@ -164,5 +200,16 @@ h1 {
   border: none;
   cursor: pointer;
   font-size: 16px;
+}
+
+.loading,
+.error {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+.error {
+  color: red;
 }
 </style>

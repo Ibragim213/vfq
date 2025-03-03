@@ -13,8 +13,8 @@
       <label class="filter-label">Материал:</label>
       <select v-model="filters.material">
         <option value="">Все</option>
-        <option value="дерево">Дерево</option>
-        <option value="металл">Металл</option>
+        <option value="Дерево">Дерево</option>
+        <option value="Металл">Металл</option>
       </select>
 
       <label class="filter-label">Цвет:</label>
@@ -45,6 +45,7 @@
         <div class="card" v-for="card in filteredCards" :key="card.id">
           <router-link :to="`/product/${card.id}`" class="card-link">
             <div class="card-body">
+              <img class="img" :src="card.image" :alt="card.name" />
               <h2 class="card-title">{{ card.title }}</h2>
               <p class="card-text">{{ card.name }}</p>
               <p class="card-text">Цена: {{ card.price }} руб.</p>
@@ -161,7 +162,10 @@ function addToCart(card) {
   text-decoration: none;
   color: inherit;
 }
+.img{
 
+  width: 100%;
+}
 .btn {
   background-color: #4caf50;
   color: white;
